@@ -27,5 +27,5 @@ c = MAX(LAT_N)
 d = MAX(LONG_W)
  */
 
-SELECT ROUND((MAX(LAT_N) - MIN(LAT_N)) + (MAX(LONG_W) - MIN(LONG_W)), 4)
+SELECT ROUND((MAX(LAT_N) - MIN(LAT_N)) + (MAX(LONG_W) - MIN(LONG_W)), 4) AS manhattan_distance
 FROM STATION;
