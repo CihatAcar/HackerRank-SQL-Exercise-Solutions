@@ -29,9 +29,13 @@ code: Integer
 age: Integer
 is_evil: Integer
  */
-SELECT w.id, p.age, w.coins_needed
-FROM Wands w
-JOIN Wands_Property p ON w.code = p.code
-WHERE MAX(w.power) AND MAX(p.age) AND p.is_evil > 0
-HAVING MIN(w.coins_needed)
-ORDER BY p.age DESC;
+SELECT w1.id, wp1.age, w1.coins_needed, w1.power
+FROM Wands w1
+JOIN Wands_Property wp1 ON w1.code = wp1.code
+WHERE wp1.is_evil = 0 AND w1.coins_needed = (
+    SELECT MIN(w2.coins_needed)
+    FROM Wands w2
+    JOIN Wands_Property wp2 ON  w2.code = wp2.code
+    WHERE wp2.is_evil = 0 AND w2.power = w1.power AND wp2.age = wp1.age
+)
+ORDER BY w1.power DESC, wp1.age DESC;
